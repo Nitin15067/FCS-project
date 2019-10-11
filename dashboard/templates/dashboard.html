@@ -1,6 +1,34 @@
-{{ text }}
-<br>
-{% for account in accounts %}
+{% extends 'dashboard/base.html' %}
 
-	{{ account.is_verified }}
-{% endfor %}
+{% block content %}
+
+	<h1>Dashboard</h1>
+	{{ text }}
+	<br>
+	{% for account in accounts %}
+
+		{{ account.is_verified }}
+
+	{% endfor %}
+	<br>
+	You are logged in 
+	
+	<hr>
+	
+	<b>User Information</b><br>
+	Username : {{ request.user.username }} <br>
+	Email : {{ request.user }} <br>
+	User Id : {{ request.user.id }} <br>
+	
+	<hr>
+
+	<b>User's Friend List</b>
+<!-- 	{% for friend in friends_list%}
+		Name : friend.username
+	{% endfor %} -->
+	<br>
+		{{ friends_list }}
+
+
+
+{% endblock %}

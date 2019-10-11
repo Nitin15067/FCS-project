@@ -1,11 +1,14 @@
 {% extends "home/base.html" %}
 
 {% block content %}
-	<h2>Register </h2>
+	<h1>Register </h1>
 	<form method="POST">
 		{% csrf_token %}
 
-		{% for field in registration_form %}
+		{{ registration_form.as_p }}
+
+
+<!-- 		{% for field in registration_form %}
 			<p>
 				{{field.label_tag}}
 				{{field}}
@@ -19,8 +22,9 @@
 				{% endfor %}
 			</p>
 		{% endfor %}
+-->
 
 		<button type="submit">Register</button>
-	</form>
+ 	</form>
 
 {% endblock %}

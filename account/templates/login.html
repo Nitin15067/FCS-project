@@ -1,11 +1,14 @@
 {% extends "home/base.html" %}
 
 {% block content %}
-	<h2>Login </h2>
+<div class="container">
+	<h1>Login </h1>
 	<form method="POST">
 		{% csrf_token %}
 
-		{% for field in login_form %}
+		{{ login_form.as_p }}
+
+<!-- 		{% for field in login_form %}
 			<p>
 				{{field.label_tag}}
 				{{field}}
@@ -30,9 +33,11 @@
 			<div style="color:red;">
 				<p>{{login_form.non_field_errors}}</p>
 			</div>
-		{% endif %}
+		{% endif %} -->
 
 		<button type="submit">Log In</button>
 	</form>
+
+</div>
 
 {% endblock %}

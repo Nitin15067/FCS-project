@@ -34,11 +34,37 @@
 		pip3 install Django
 
 
-
 *** Databases ***
 	
-	- User model
+	- User model (in account app)
 		Attributes : 
-		{ email, username, first name, last name, phone no, date joined, last login, is active, is casual user, is premium user, is commercial user, is admin, is staff }
+		{ email, username, first_name, last_name, phone_no, date_joined, last_login, is_active, is_casual_user, is_premium_user, is_commercial_user, is_admin, is_staff }
 
-		
+	- FriendList model (in dashboard app)
+		Attributes :
+		{ user_id, friend_id, status, date_requested, date_confirmed }
+
+	- Transaction model (in dashboard app)
+		Attributes :
+		{
+			to be done
+		}
+
+
+
+*** Template Pages ***
+
+	-login.html
+	-register.html
+	-add_money.html
+	-change_password.html
+	-create_group.html
+	-dashboard.html
+	-edit_profile.html
+	-friends.html
+	-messenger.html
+	-profile.html
+	-transactions.html
+	-transfer_money.html
+	-wallet.html
+	

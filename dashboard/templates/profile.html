@@ -1,0 +1,47 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<div class="conatiner-fluid" style="
+	padding: 30px;
+">
+	
+	<div class="conatiner-fluid" style="
+		padding: 30px;
+	">
+		<p>
+			Name : {{ user.first_name }} {{user.last_name}}
+		</p>
+		<p>
+			Username : {{ user.username }} <br>
+		</p>
+		<p>
+			Email : {{ user }} <br>
+		</p>
+		<p>
+			User Id : {{ user.id }} <br>
+		</p>
+		<p>
+			Phone No : {{ user.phone_no }} <br>
+		</p>
+		<p>
+			<a href="{% url 'edit_profile_info' %}"class="btn btn-outline-primary" disabled>
+				Edit Profile
+			</a>
+		</p>
+	</div>
+
+
+</div>
+
+<!-- 
+	<b>User's Friend List</b>
+	{% for friend in friends_list%}
+		Name : friend.username
+	{% endfor %}
+	<br>
+		{{ friends_list }}
+ -->
+
+
+{% endblock %}

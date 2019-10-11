@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 from account.views import (
 	registration_view, 
@@ -23,7 +24,21 @@ from account.views import (
 )
 
 from dashboard.views import (
-	dashboard_view
+	dashboard_view,
+
+    profile_view,
+    edit_profile_info_view,
+    change_password_view,
+
+    friends_view,
+
+    wallet_view,
+    add_money_view,
+    transfer_money_view,
+    transactions_view,
+
+    messenger_view,
+    create_group_view,
 )
 
 from home.views import (
@@ -33,11 +48,29 @@ from home.views import (
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^dashboard/', dashboard_view, name = "dashboard"),
+    url(r'^dashboard/$', dashboard_view, name = "dashboard"),
     
-    url(r'^login/', login_view, name="login"),
-    url(r'^register/', registration_view, name="register"),
-    url(r'^logout/', logout_view, name="logout"),
+    url(r'^login/$', login_view, name="login"),
+    url(r'^register/$', registration_view, name="register"),
+    url(r'^logout/$', logout_view, name="logout"),
 
-    url(r'^', home_view, name="home"),
+    url(r'^profile/edit/change_password/$', change_password_view, name="change_password"),
+    url(r'^profile/edit/$', edit_profile_info_view, name="edit_profile_info"),
+    url(r'^profile/$', profile_view, name="profile"),
+
+
+    url(r'^friends/$', friends_view, name="friends"),
+
+    url(r'^messenger/create_group/$', create_group_view, name="create_group"),
+    url(r'^messenger/$', messenger_view, name="messenger"),
+
+
+    url(r'^wallet/add_money/$', add_money_view, name="add_money"),
+    url(r'^wallet/transfer_money/$', transfer_money_view, name="transfer_money"),
+    url(r'^wallet/transactions/$', transactions_view, name="transactions"),
+    url(r'^wallet/$', wallet_view, name="wallet"),
+    
+
+
+    url(r'^$', home_view, name="home"),
 ]

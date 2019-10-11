@@ -1,2 +1,57 @@
-This is the navigation
-<br>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			
+				<li class="nav-item">
+					<a href="{% url 'home' %}" class="nav-link">Home</a>
+				</li>
+				<li class="nav-item">
+					<a href="{% url 'profile' %}" class="nav-link">Profile</a>
+					
+				</li>
+				<li class="nav-item">
+					<a href="{% url 'friends' %}" class="nav-link">Friends</a>
+					
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="{% url 'wallet' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Messenger
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			          <a class="dropdown-item" href="{% url 'messenger' %}">Open Messenger</a>
+			          <hr>
+			          <a class="dropdown-item" href="{% url 'create_group' %}">Create Group</a>
+				</li>
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="{% url 'wallet' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Wallet
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			          <a class="dropdown-item" href="{% url 'wallet' %}">Open Wallet</a>
+			          <hr>
+			          <a class="dropdown-item" href="{% url 'add_money' %}">Add Money</a>
+			          <a class="dropdown-item" href="{% url 'transfer_money' %}">Transfer Money</a>
+			          <a class="dropdown-item" href="{% url 'transactions' %}">All Transactions</a>
+		      	</li>
+		</ul>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+  			    <form class="form-inline my-2 my-lg-0">
+			    	<input class="form-control mr-sm-2" type="search" placeholder="Search for friends or groups" aria-label="Search" style="width: 500px;">
+			    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="width: 130px;">Search</button>
+		    	</form>
+			</li>
+		</ul>
+		<ul class="navbar-nav navbar-right">
+
+
+
+
+				<li class="nav-item">
+					<a href="{% url 'logout' %}" class="nav-link">Logout</a>
+					
+				</li>
+
+		</ul>
+	</div>
+</nav>

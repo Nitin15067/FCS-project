@@ -1,11 +1,12 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
-	
+	{{ random_text }}
 	{% if request.user.is_authenticated %}
 		You are logged in <br><br>
 		Username : {{ request.user.username }} <br>
 		Email : {{ request.user }} <br>
+		User Id : {{ request.user.id }} <br>
 	{% endif %}
 	
 {% endblock %}

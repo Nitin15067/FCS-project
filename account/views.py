@@ -2,9 +2,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, LoginForm
 
+from django.contrib.auth.forms import UserCreationForm
+
+def registration(request):
+	print("hellow")
+	print (request.method)
+	if request.method == 'POST':
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('dashboard')
+	else:
+		form = RegistrationForm()
+
+		args = {'form': form}
+		return render(request, 'register.html', args)
+
 def registration_view(request):
 	context = {}
 	print("helre")
+
+	if request.user.is_authenticated:
+		return redirect("dashboard")
+
 	if request.POST:
 		form = RegistrationForm(request.POST)
 		print(form)
@@ -38,7 +58,6 @@ def login_view(request):
 		print(form)
 		print("validity")
 		if form.is_valid():
-			print("here")
 			email = request.POST['email']
 			password = request.POST['password']
 
@@ -47,8 +66,7 @@ def login_view(request):
 			if user :
 				login(request, user)
 				return redirect("dashboard")
-	else:
-		form = LoginForm()
+	else: form = LoginForm()
 	context['login_form'] = form
 	return render(request, 'login.html', context)
 
