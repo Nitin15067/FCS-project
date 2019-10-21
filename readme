@@ -10,6 +10,13 @@
 		"python manage.py makemigrations"
 		"python manage.py migrate"
 
+	- to push on github :
+		"git init"
+		"git add ."
+		"git commit -m 'first commit'"
+		"git remote add origin url_of_git_repo"
+		"git remote -v"
+		"git push origin master"
 
 *** Apps in Project ***
 
@@ -49,8 +56,6 @@
 		{
 			to be done
 		}
-
-
 
 *** Template Pages ***
 

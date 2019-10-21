@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^register/$', registration_view, name="register"),
     url(r'^logout/$', logout_view, name="logout"),
 
+
     url(r'^profile/edit/change_password/$', change_password_view, name="change_password"),
     url(r'^profile/edit/$', edit_profile_info_view, name="edit_profile_info"),
     url(r'^profile/$', profile_view, name="profile"),

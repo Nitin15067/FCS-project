@@ -65,8 +65,39 @@ def friends_view(request):
 	return render(request, 'friends.html', args)
 
 def wallet_view(request):
+
+	# balance = 500
+	# send = 1
+	# receive = 0
+	# send_to = 'Rakesh'
+	# receive_from = ''
+	# time = 'fsd'
+	# date = 'sdf',
+	# payment_id = 'sfd'
+	# payment_method = 'sdg'
+	# status = 0
+
+
+	# transactions = {
+	# 	't_id' : t_id
+	# 	'send' : send,
+	# 	'receive' : receive,
+	# 	'send_to' : send_to,
+	# 	'receive_from' : receive_from
+	# 	'time' : time,
+	# 	'date' : date,
+	# 	'payment_id' : payment_id,
+	# 	'payment_method' : payment_method,
+	# 	'status' : status,
+	# }
+
+	balance = 555
+	transactions = 'ergsdg'
+
 	args = {
-	
+		'balance' : balance,
+		'transactions' : transactions
+
 	}
 	return render(request, 'wallet.html', args)
 
