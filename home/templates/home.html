@@ -1,12 +1,14 @@
 {% extends 'home/base.html' %}
-
 {% block content %}
-	{{ random_text }}
-	{% if request.user.is_authenticated %}
-		You are logged in <br><br>
-		Username : {{ request.user.username }} <br>
-		Email : {{ request.user }} <br>
-		User Id : {{ request.user.id }} <br>
-	{% endif %}
-	
+	{% for post in posts %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ post.author.first_name }}</a>
+                    <small class="text-muted">{{ post.date_posted }}</small>
+                </div>
+                <p class="article-content">{{ post.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
 {% endblock %}

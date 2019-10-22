@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from account.models import Account
 
 class RegistrationForm(UserCreationForm):
-	email = forms.EmailField(required=True, max_length=60, help_text='Requied. Add a valid email address')
+	email = forms.EmailField(required=True, max_length=60, help_text='Required. Add a valid email address')
 
 	class Meta:
 		model = Account

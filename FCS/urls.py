@@ -42,7 +42,9 @@ from dashboard.views import (
 )
 
 from home.views import (
-	home_view
+	home_view,
+    PostListView,
+    PostCreateView
 )
 
 urlpatterns = [
@@ -51,7 +53,7 @@ urlpatterns = [
     url(r'^dashboard/$', dashboard_view, name = "dashboard"),
     
     url(r'^login/$', login_view, name="login"),
-    url(r'^register/$', registration_view, name="register"),
+    url(r'^$', registration_view, name="register"),
     url(r'^logout/$', logout_view, name="logout"),
 
     url(r'^profile/edit/change_password/$', change_password_view, name="change_password"),
@@ -72,5 +74,6 @@ urlpatterns = [
     
 
 
-    url(r'^$', home_view, name="home"),
+    url(r'^home/$', PostListView.as_view(), name="home"),
+    url(r'^post/new/$', PostCreateView.as_view(), name="post-create"),
 ]

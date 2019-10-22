@@ -1,7 +1,12 @@
 {% include "home/header.html" %}
 {% include "home/navigation.html" %}
-
-{% block content %}{% endblock %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-8">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</main>
 
 {% include "home/footer.html" %}
 

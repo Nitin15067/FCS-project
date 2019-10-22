@@ -1,0 +1,12 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+### Django.Python Stack ###
+*.py[cod]
+*$py.class
+
+.DS_Store
