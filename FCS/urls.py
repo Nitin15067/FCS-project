@@ -31,6 +31,9 @@ from dashboard.views import (
     change_password_view,
 
     friends_view,
+    add_friend_view,
+
+    search_view,
 
     wallet_view,
     add_money_view,
@@ -57,10 +60,15 @@ urlpatterns = [
 
     url(r'^profile/edit/change_password/$', change_password_view, name="change_password"),
     url(r'^profile/edit/$', edit_profile_info_view, name="edit_profile_info"),
-    url(r'^profile/$', profile_view, name="profile"),
+    url(r'^profile/(?P<u_id>\w+)/$', profile_view, name="profile"),
+    url(r'^profile/(?P<u_id>\w+)/add_friend$', add_friend_view, name="add_friend"),
+
 
 
     url(r'^friends/$', friends_view, name="friends"),
+
+    url(r'^search/$', search_view, name="search"),
+
 
     url(r'^messenger/create_group/$', create_group_view, name="create_group"),
     url(r'^messenger/$', messenger_view, name="messenger"),

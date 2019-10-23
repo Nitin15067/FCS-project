@@ -3,7 +3,9 @@ from django.contrib.auth import login, authenticate
 from dashboard.forms import EditProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.db.models import Q
 from account.models import Account
+from dashboard.models import Friend
 
 # from dashboard.models import Friends
 
@@ -19,10 +21,15 @@ def dashboard_view(request):
 		return render(request, 'dashboard.html', args)
 	else : return redirect('login')
 
+def profile_view(request, u_id=None):
 
-def profile_view(request):
+	if u_id:
+		user_data = Account.objects.filter(id=u_id)[0]
+
+	print(user_data)
+
 	args = {
-		'user': request.user
+		'user': user_data
 	}
 	return render(request, 'profile.html', args)
 
@@ -59,9 +66,18 @@ def change_password_view(request):
 
 
 def friends_view(request):
+	current_user = request.user
+	friends = Friend.get_friends(current_user)
+	for friend in friends.users.all():
+		print (friend)
+		
 	args = {
-
+		'friends' : friends,
+		'status' : 200,
+		'errors' : ''
 	}
+	print(args['friends'])
+
 	return render(request, 'friends.html', args)
 
 def wallet_view(request):
@@ -91,7 +107,7 @@ def wallet_view(request):
 	# 	'status' : status,
 	# }
 
-	balance = 555
+	balance = 556
 	transactions = 'ergsdg'
 
 	args = {
@@ -100,6 +116,59 @@ def wallet_view(request):
 
 	}
 	return render(request, 'wallet.html', args)
+
+def search_view(request):
+
+	
+	search_content = request.GET.get('q')
+	# print(request.user.id)
+
+
+	if search_content:
+		results = Account.objects.filter(
+			Q(username__icontains=search_content)
+			| Q (email__icontains=search_content)
+			| Q (first_name=search_content)
+			)
+		results = results.exclude(id=request.user.id)
+
+
+		if results:
+			args = {
+				'result' : results,
+				'status' : 200,
+				'error' : '' 
+			}
+			return render(request, 'search.html', args)
+		else:
+			args = {
+				'result' : '',
+				'status' : 0,
+				'error' : {
+					1 : 'No results found'
+				}
+
+			}
+			return render(request, 'search.html', args)
+	return render(request, 'search.html')
+
+
+def add_friend_view(request, u_id):
+	args = {
+	
+	}
+
+	current_user = request.user
+	other_user = Account.objects.filter(id=u_id)[0]
+
+
+	friend_request = Friend.send_request(current_user, other_user)
+
+
+	print("friend request send")
+	# request_username = request.GET.get('')
+	return render(request, 'add_friend.html', args)
+
 
 def transfer_money_view(request):
 	args = {

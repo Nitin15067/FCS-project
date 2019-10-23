@@ -29,7 +29,7 @@ box-shadow: 0px 10px 30px grey !important;
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="{% url 'profile' %}" class="nav-link">Profile</a>
+					<a href="/profile/{{ user.id }}"  class="nav-link">Profile</a>
 					
 				</li>
 				<li class="nav-item">
@@ -59,8 +59,8 @@ box-shadow: 0px 10px 30px grey !important;
 		</ul>
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-  			    <form class="form-inline my-2 my-lg-0">
-			    	<input class="form-control mr-sm-2" type="search" placeholder="Search for friends or groups" aria-label="Search" style="width: 500px;">
+  			    <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
+			    	<input name="q" class="form-control mr-sm-2" type="search" placeholder="Search for friends or groups" aria-label="Search" value="{{ request.GET.q }}" style="width: 500px;">
 			    	<button class="btn btn-success my-2 my-sm-0" type="submit" style="width: 130px;">Search</button>
 		    	</form>
 			</li>
