@@ -32,12 +32,18 @@ box-shadow: 0px 10px 30px grey !important;
 					<a href="/profile/{{ user.id }}"  class="nav-link">Profile</a>
 					
 				</li>
-				<li class="nav-item">
-					<a href="{% url 'friends' %}" class="nav-link">Friends</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="{% url 'friends' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Friends
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			          <a class="dropdown-item" href="{% url 'friends' %}">Friend List</a>
+			          <hr>
+			          <a class="dropdown-item" href="{% url 'friend_requests' %}">Friend Requests</a> 
 					
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="{% url 'wallet' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="{% url 'messenger' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			          Messenger
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -30,8 +30,12 @@ from dashboard.views import (
     edit_profile_info_view,
     change_password_view,
 
+    send_request_view,
+    accept_request_view,
+    delete_request_view,
+    unfriend_view,
     friends_view,
-    add_friend_view,
+    friend_requests_view,
 
     search_view,
 
@@ -61,12 +65,16 @@ urlpatterns = [
     url(r'^profile/edit/change_password/$', change_password_view, name="change_password"),
     url(r'^profile/edit/$', edit_profile_info_view, name="edit_profile_info"),
     url(r'^profile/(?P<u_id>\w+)/$', profile_view, name="profile"),
-    url(r'^profile/(?P<u_id>\w+)/add_friend$', add_friend_view, name="add_friend"),
+    url(r'^profile/(?P<u_id>\w+)/send_request/$', send_request_view, name="send_request"),
+    url(r'^profile/(?P<u_id>\w+)/unfriend/$', unfriend_view, name="unfriend"),
+    url(r'^profile/(?P<u_id>\w+)/accept_request/$', accept_request_view, name="accept_request"),
+    url(r'^profile/(?P<u_id>\w+)/delete_request/$', delete_request_view, name="delete_request"),
 
 
 
     url(r'^friends/$', friends_view, name="friends"),
-
+    url(r'^friend_requests/$', friend_requests_view, name="friend_requests"),
+    
     url(r'^search/$', search_view, name="search"),
 
 

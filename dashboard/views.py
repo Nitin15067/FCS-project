@@ -65,47 +65,7 @@ def change_password_view(request):
 		return render(request, 'change_password.html', args)
 
 
-def friends_view(request):
-	current_user = request.user
-	friends = Friend.get_friends(current_user)
-	for friend in friends.users.all():
-		print (friend)
-		
-	args = {
-		'friends' : friends,
-		'status' : 200,
-		'errors' : ''
-	}
-	print(args['friends'])
-
-	return render(request, 'friends.html', args)
-
 def wallet_view(request):
-
-	# balance = 500
-	# send = 1
-	# receive = 0
-	# send_to = 'Rakesh'
-	# receive_from = ''
-	# time = 'fsd'
-	# date = 'sdf',
-	# payment_id = 'sfd'
-	# payment_method = 'sdg'
-	# status = 0
-
-
-	# transactions = {
-	# 	't_id' : t_id
-	# 	'send' : send,
-	# 	'receive' : receive,
-	# 	'send_to' : send_to,
-	# 	'receive_from' : receive_from
-	# 	'time' : time,
-	# 	'date' : date,
-	# 	'payment_id' : payment_id,
-	# 	'payment_method' : payment_method,
-	# 	'status' : status,
-	# }
 
 	balance = 556
 	transactions = 'ergsdg'
@@ -153,23 +113,81 @@ def search_view(request):
 	return render(request, 'search.html')
 
 
-def add_friend_view(request, u_id):
+def friends_view(request):
+	user_1 = request.user
+	friends = (Friend.objects.filter(user_1 = user_1) | Friend.objects.filter(user_2 = user_1) ) & Friend.objects.filter(status = True)
+
 	args = {
-	
+		'friends' : friends,
+		'status' : 200,
+		'errors' : ''
 	}
 
-	current_user = request.user
-	other_user = Account.objects.filter(id=u_id)[0]
+	return render(request, 'friends.html', args)
+
+def friend_requests_view(request):
+
+	user_1 = request.user
+	friend_requests = Friend.objects.filter(user_2 = user_1) & Friend.objects.filter(status = False)
+
+	args = {
+
+		'friend_requests' : friend_requests,
+		'status' : 200,
+		'errors' : ''
+	}
+
+	return render(request, 'friend_request.html', args)
+
+def send_request_view(request, u_id):
+	args = {
+
+	}
+	user_1 = request.user
+	user_2 = Account.objects.filter(id=u_id)[0]
+
+	if Friend.objects.filter(user_1 = user_1, user_2 = user_2).exists() | Friend.objects.filter(user_1 = user_2, user_2 = user_1).exists():
+		return redirect('friends')
+	else : 
+		friend_request = Friend(user_1 = user_1, user_2 = user_2, status = False)
+		friend_request.save()
+
+	return redirect('friends')
+	
+def accept_request_view(request, u_id):
+
+	user_2 = request.user
+	user_1 = Account.objects.filter(id=u_id)[0]
+
+	accept_request = Friend.objects.get(user_1 = user_1, user_2 = user_2, status = False)
+	accept_request.status = True
+	accept_request.save()	
+	return redirect('friends')
+
+def delete_request_view(request, u_id):
+
+	user_2 = request.user
+	user_1 = Account.objects.filter(id=u_id)[0]
+
+	delete_request = Friend.objects.get(user_1 = user_1, user_2 = user_2)
+	delete_request.delete()
+	delete_request.save()
+
+	return redirect('friend_requests')
+
+def unfriend_view(request, u_id):
+
+	user_1 = request.user
+	user_2 = Account.objects.filter(id=u_id)[0]
+
+	remove_friend = Friend.objects.get(user_1 = user_1, user_2 = user_2)
+	remove_friend.delete()
+	remove_friend.save()
+
+	return redirect('friends')
 
 
-	friend_request = Friend.send_request(current_user, other_user)
-
-
-	print("friend request send")
-	# request_username = request.GET.get('')
-	return render(request, 'add_friend.html', args)
-
-
+	
 def transfer_money_view(request):
 	args = {
 	
