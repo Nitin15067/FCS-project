@@ -42,3 +42,8 @@ class Message(models.Model):
 	message = models.TextField(verbose_name="message")
 	message_sent = models.DateTimeField(verbose_name="message_sent", auto_now_add=True)
 
+class Page(models.Model):
+	user = models.ForeignKey(Account, related_name="page_create_user", null=True, on_delete=models.CASCADE) 
+	page_title = models.TextField(null= False)
+	content = models.TextField(null=False)
+	date_created = models.DateTimeField(verbose_name="date created", auto_now_add=True)

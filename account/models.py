@@ -57,7 +57,7 @@ class Account(AbstractBaseUser):
 	is_premium_user = models.BooleanField(default=False)
 	is_commercial_user = models.BooleanField(default=False)
 	is_verified = models.BooleanField(default=False)
-
+	premium_type = models.IntegerField(default=0, verbose_name="premium_type")
 
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'phone_no']

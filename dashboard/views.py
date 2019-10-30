@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.db.models import Q
 from account.models import Account
-from dashboard.models import Friend, Wallet, Transaction, feed, Message
+from dashboard.models import Friend, Wallet, Transaction, feed, Message, Page
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
 from django.urls import reverse_lazy
@@ -291,7 +291,18 @@ def transfer_money_view(request):
 
 		account_balance = Wallet.objects.filter(user = request.user)[0]
 
-		if  int(account_balance.balance) - int(amount) >= 0: 
+		transactions = Transaction.objects.filter(user_1 = request.user, status = True) | Transaction.objects.filter(user_2 = request.user, status = True)
+
+		transactions_count = len(transactions)
+
+		if request.user.is_casual_user and not request.user.is_premium_user and not request.user.is_commercial_user and transactions_count>15:
+			return redirect('wallet')
+
+		if request.user.is_premium_user and not request.user.is_commercial_user and transactions_count>30:
+			return redirect('wallet')
+
+
+		if  int(account_balance.balance) - int(amount) >= 0 : 
 
 			account_balance.balance = int(account_balance.balance) - int(amount)
 			account_balance.save()
@@ -439,6 +450,12 @@ def upgrade_payment_view(request, type):
 				wallet.save()
 			
 				account.is_premium_user = True
+				if int(amount) == 50:
+					account.premium_type = 1
+				if int(amount) == 100:
+					account.premium_type = 2
+				if int(amount) == 150:
+					account.premium_type = 3
 				account.save()
 
 			return redirect('dashboard')
@@ -536,3 +553,45 @@ def messenge_view(request,user_1,user_2):
 		return redirect('/messenger/'+user_1+'/'+user_2+'/')
 	return render(request, 'chatapp.html', args1)
 
+def create_page_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
+	if not request.user.is_commercial_user:
+		return redirect('dashboard')
+
+
+	args = {
+
+	}
+
+	if request.method == "POST":
+		page_title = request.POST.get('page_name')
+		content = request.POST.get('content')
+
+		p = Page(page_title = page_title, content = content, user  = request.user)
+		p.save()
+
+		print(page_title)
+		print(content)
+
+
+
+	return render(request, 'create_page.html', args)
+
+def page_view(request, id):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
+	if(Page.objects.filter(id = int(id)).count() == 0):
+		return redirect('dashboard')
+
+	p_data = Page.objects.filter(id = int(id))[0]
+
+	print(p_data.page_title)
+
+	args = {
+		'page_data' : p_data
+	}
+
+	return render(request, 'page.html', args)

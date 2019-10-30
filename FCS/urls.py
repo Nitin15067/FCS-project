@@ -55,6 +55,9 @@ from dashboard.views import (
 
     upgrade_view,
     upgrade_payment_view,
+
+    create_page_view,
+    page_view,
 )
 
 from home.views import (
@@ -104,6 +107,9 @@ urlpatterns = [
     url(r'^create_post/(?P<u_id>\w+)/$', create_post_view, name="create_post"),
     url(r'^upgrade/$', upgrade_view, name="upgrade"),
     url(r'^upgrade/(?P<type>\w+)/$', upgrade_payment_view, name="upgrade"),
+  
+    url(r'^create_page/$', create_page_view, name="create_page"),
+    url(r'^page/(?P<id>\w+)/$', page_view, name="page"),
     
         
 
