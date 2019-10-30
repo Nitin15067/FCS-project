@@ -5,14 +5,17 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.db.models import Q
 from account.models import Account
-from dashboard.models import Friend, Wallet, Transaction, feed
+from dashboard.models import Friend, Wallet, Transaction, feed, Message
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
 from django.urls import reverse_lazy
-
+from django.utils import timezone
 # from dashboard.models import Friends
 
 def dashboard_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	args = {
 		"text" : "This is the dashboard"
 	}
@@ -25,6 +28,8 @@ def dashboard_view(request):
 	else : return redirect('login')
 
 def profile_view(request, u_id=None):
+	if not request.user.is_authenticated:
+		return redirect('login')
 
 	user_data = Account.objects.filter(id=u_id)[0]
 
@@ -48,6 +53,9 @@ def profile_view(request, u_id=None):
 	return render(request, 'profile.html', args)
 
 def edit_profile_info_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	args = {}
 
 	if request.method == "POST":
@@ -63,6 +71,9 @@ def edit_profile_info_view(request):
 		return render(request, 'edit_profile_info.html', args)
 
 def change_password_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	args = {}
 
 	if request.method == "POST":
@@ -80,7 +91,8 @@ def change_password_view(request):
 
 
 def search_view(request):
-
+	if not request.user.is_authenticated:
+		return redirect('login')
 	
 	search_content = request.GET.get('q')
 	# print(request.user.id)
@@ -116,6 +128,9 @@ def search_view(request):
 
 
 def friends_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	user_1 = request.user
 	friends = (Friend.objects.filter(user_1 = user_1) | Friend.objects.filter(user_2 = user_1) ) & Friend.objects.filter(status = True)
 
@@ -128,6 +143,8 @@ def friends_view(request):
 	return render(request, 'friends.html', args)
 
 def friend_requests_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
 
 	user_1 = request.user
 	friend_requests = Friend.objects.filter(user_2 = user_1) & Friend.objects.filter(status = False)
@@ -142,6 +159,9 @@ def friend_requests_view(request):
 	return render(request, 'friend_request.html', args)
 
 def send_request_view(request, u_id):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	args = {
 
 	}
@@ -157,6 +177,8 @@ def send_request_view(request, u_id):
 	return redirect('friends')
 	
 def accept_request_view(request, u_id):
+	if not request.user.is_authenticated:
+		return redirect('login')
 
 	user_2 = request.user
 	user_1 = Account.objects.filter(id=u_id)[0]
@@ -167,6 +189,8 @@ def accept_request_view(request, u_id):
 	return redirect('friends')
 
 def delete_request_view(request, u_id):
+	if not request.user.is_authenticated:
+		return redirect('login')
 
 	user_1 = Account.objects.filter(id=u_id)[0]
 	user_2 = request.user
@@ -181,6 +205,8 @@ def delete_request_view(request, u_id):
 	return redirect('friend_requests')
 
 def unfriend_view(request, u_id):
+	if not request.user.is_authenticated:
+		return redirect('login')
 
 	user_1 = request.user
 	user_2 = Account.objects.filter(id=u_id)[0]
@@ -201,7 +227,8 @@ def unfriend_view(request, u_id):
 
 
 def wallet_view(request):
-
+	if not request.user.is_authenticated:
+		return redirect('login')
 
 	balance = Wallet.objects.filter(user = request.user)[0].balance
 	transactions = Transaction.objects.filter(user_1 = request.user, status = True) | Transaction.objects.filter(user_2 = request.user, status = True)
@@ -217,6 +244,9 @@ def wallet_view(request):
 
 
 def transactions_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	transactions = Transaction.objects.filter(user_1 = request.user, status = True) | Transaction.objects.filter(user_2 = request.user, status = True)
 
 	transactions_count = len(transactions)
@@ -228,6 +258,9 @@ def transactions_view(request):
 	return render(request, 'transactions.html', args)
 
 def add_money_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	args = {
 	
 	}
@@ -246,6 +279,9 @@ def add_money_view(request):
 
 	
 def transfer_money_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 
 	friends = (Friend.objects.filter(user_1 = request.user) | Friend.objects.filter(user_2 = request.user) ) & Friend.objects.filter(status = True)
 
@@ -274,6 +310,9 @@ def transfer_money_view(request):
 	return render(request, 'transfer_money.html', args)
 
 def accept_decline_transaction_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	transaction_requests = Transaction.objects.filter(user_2 = request.user, status = False)
 
 	transaction_requests_count = len(transaction_requests)
@@ -287,6 +326,9 @@ def accept_decline_transaction_view(request):
 	return render(request, 'accept_decline.html', args)
 
 def accept_transaction_view(request, t_id):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	transaction = Transaction.objects.filter(id = t_id)[0]
 	print(transaction.user_1)
 	user_wallet = Wallet.objects.filter(user = request.user)[0]
@@ -305,6 +347,9 @@ def accept_transaction_view(request, t_id):
 	return redirect('accept_decline')
 
 def decline_transaction_view(request, t_id):
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	transaction = Transaction.objects.filter(id = t_id)[0]
 	sender_wallet = Wallet.objects.filter(user = transaction.user_1)[0]
 	sender_wallet.balance = int(sender_wallet.balance) + int(transaction.amount)
@@ -314,20 +359,20 @@ def decline_transaction_view(request, t_id):
 	return redirect('accept_decline')
 
 
-def messenger_view(request):
-	args = {
-	
-	}	
-	return render(request, 'add_money.html', args)
 
 def create_group_view(request):
+
+	if not request.user.is_authenticated:
+		return redirect('login')
+
 	args = {
 	
 	}	
 	return render(request, 'add_money.html', args)
 
 def create_post_view(request, u_id):
-
+	if not request.user.is_authenticated:
+		return redirect('login')
 	
 	args = {
 		'u_id' : u_id
@@ -348,29 +393,146 @@ def create_post_view(request, u_id):
 
 	return render(request, 'create_post.html', args)
 
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = feed
-    template_name = 'create_post.html'
-    fields = ['content','post_to']
-    success_url = reverse_lazy('home')
-    login_url = "login"
+def upgrade_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
 
-    args = {
+	if request.user.is_commercial_user:
+		user_type =  2
+	elif request.user.is_premium_user:
+		user_type = 1
+	else: user_type = 0
 
-    }
 
-    def get_form(self):
-        form = super(PostCreateView, self).get_form()
-        initial_base = self.get_initial() 
-        # initial_base['menu'] = Menu.objects.get(id=1)
-        form.initial = initial_base
+	args = {
+		'user_type' : user_type,
+	}
 
-        u = self.request.user
-        friends = (Friend.objects.filter(user_1 = u) | Friend.objects.filter(user_2 = u) ) & Friend.objects.filter(status = True)
-        print(friends.user_1)
-        form.fields['post_to'].queryset = friends
-        return form
+	return render(request, 'upgrade.html', args)
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form) 
+
+def upgrade_payment_view(request, type):
+
+	args = {
+		'type' : int(type)
+	}
+
+	# if int(type) == 1:
+		# args['payment']['2_groups'] = 50
+		# args['payment']['4_groups'] = 100
+		# args['payment']['any_groups'] = 150
+		 
+	if int(type) == 2:
+		if request.user.is_verified:
+			args['payment_amount'] = 5000 
+
+
+	if request.method == "POST":
+		print("inside")
+
+		account = Account.objects.filter(id = request.user.id)[0]
+		if(request.POST.get('amount')):
+			amount = request.POST.get('amount')
+			wallet = Wallet.objects.filter(user = request.user)[0]
+			if(wallet.balance - int(amount) >=0):
+				wallet.balance = int(wallet.balance) - int(amount)
+				wallet.save()
+			
+				account.is_premium_user = True
+				account.save()
+
+			return redirect('dashboard')
+		
+		print("very inside")
+		amount = 5000
+		wallet = Wallet.objects.filter(user = request.user)[0]
+		print(wallet.balance)
+		if(wallet.balance - int(amount) >=0):
+			wallet.balance = int(wallet.balance) - amount
+			print(wallet.balance)	
+			wallet.save()
+			account.is_commercial_user = True
+			account.save()
+		return redirect('dashboard')
+
+	return render(request, 'upgrade_payment.html', args)
+
+# adarsh
+
+def messenger_view(request):
+	if not request.user.is_authenticated:
+    		return redirect('login')
+	user_1 = request.user
+	friends = (Friend.objects.filter(user_1 = user_1) | Friend.objects.filter(user_2 = user_1) ) & Friend.objects.filter(status = True)
+
+	args = {
+		'friends' : friends,
+		'status' : 200,
+		'errors' : ''
+	}
+
+	# args = {
+	
+	# }	
+	return render(request, 'messenger.html', args)
+
+
+		
+def messenge_view(request,user_1,user_2):
+	if not request.user.is_authenticated:
+		return redirect('login')
+	val=False
+	mes=[]
+	is_friend=False
+
+	u_1 = Account.objects.filter(id = int(user_1))
+	u_2 = Account.objects.filter(id = int(user_2))
+
+	if u_1.count() == 0 or u_2.count() == 0:
+		return redirect('home')
+
+	u_1 = u_1[0]
+	u_2 = u_2[0]
+
+	if u_1 == None or u_2 == None:
+		return redirect('home')
+
+	if (Friend.objects.filter(user_1 = u_1, user_2=u_2)).exists() | (Friend.objects.filter(user_1 = u_2, user_2=u_1)).exists():
+    		is_friend=True
+	if(not is_friend):
+		return redirect('home')		
+	accounts = Account.objects.all()
+
+	if u_1 == request.user:
+		val = u_1.is_commercial_user | u_1.is_premium_user
+
+	if u_2 == request.user:
+		val = u_2.is_commercial_user | u_2.is_premium_user
+	print(val)
+
+	value =Message.objects.all().order_by('message_sent')
+	for i in range(len(value)):
+		if((int(value[i].user_1.id)==int(user_1) and int(value[i].user_2.id)==int(user_2) and is_friend) or (int(value[i].user_2.id)==int(user_1) and int(value[i].user_1.id)==int(user_2) and is_friend)):
+			mes.append(value[i])
+			
+    					
+	args1={
+		'visibile' :val,
+		'message' : mes,
+	}
+
+	if(request.method == 'POST'):
+		mm = request.POST.get('post_area')
+
+		if mm == '':
+			return redirect('/messenger/'+user_1+'/'+user_2+'/')
+
+		u11 = Account.objects.filter(id = int(user_1))[0]
+		u21 = Account.objects.filter(id = int(user_2))[0]
+		tme = timezone.now()
+		var = Message(user_1 = u11,user_2 = u21,message = mm,message_sent=tme)
+		print(var.message_sent)
+		var.save()
+		return redirect('/messenger/'+user_1+'/'+user_2+'/')
+	return render(request, 'chatapp.html', args1)
+

@@ -78,6 +78,9 @@ def login_view(request):
 	return render(request, 'login.html', context)
 
 def logout_view(request):
+	if not request.user.is_authenticated:
+		return redirect('login')
+		
 	print("here i am")
 	logout(request)
 	print ("loggin pout")

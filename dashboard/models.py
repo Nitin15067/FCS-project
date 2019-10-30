@@ -11,7 +11,7 @@ class Friend(models.Model):
 	status = models.BooleanField(default=False)
 	date_requested = models.DateTimeField(verbose_name="date requested", auto_now_add=True)
 	date_confirmed = models.DateTimeField(verbose_name="date confirmed", null=True)
-	
+
 
 class Wallet(models.Model):
 	user = models.ForeignKey(Account, related_name="user", on_delete=models.CASCADE)
@@ -35,3 +35,10 @@ class feed(models.Model):
 
     def __str__(self):
         return self.author.first_name
+
+class Message(models.Model):
+	user_1 = models.ForeignKey(Account, related_name="user_send", null=True, on_delete=models.CASCADE)
+	user_2 = models.ForeignKey(Account, related_name="user_recv", null=True, on_delete=models.CASCADE)    
+	message = models.TextField(verbose_name="message")
+	message_sent = models.DateTimeField(verbose_name="message_sent", auto_now_add=True)
+

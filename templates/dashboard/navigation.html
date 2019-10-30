@@ -63,6 +63,9 @@ box-shadow: 0px 10px 30px grey !important;
 			          <a class="dropdown-item" href="{% url 'transactions' %}">All Transactions</a>
 			          <a class="dropdown-item" href="{% url 'accept_decline' %}">Transaction Requests</a>
 		      	</li>
+		      	<li class="nav-item">
+		      		<a class="nav-link" href="{% url 'upgrade' %}">Upgrade Account</a>
+		      	</li>
 		</ul>
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
@@ -76,7 +79,20 @@ box-shadow: 0px 10px 30px grey !important;
 
 
 
-
+				<li class="nav-item" style="
+					margin-right: 10px; 
+				">
+					<a href="#" class="nav-link">
+						{% if request.user.is_commercial_user %}
+							Commercial User
+						{% elif request.user.is_premium_user %}
+							Premium User
+						{% else %}
+							Casual User
+						{% endif %}
+					</a>
+					
+				</li>
 				<li class="nav-item">
 					<a href="{% url 'logout' %}" class="nav-link btn btn-danger " style="
 						height:100%;

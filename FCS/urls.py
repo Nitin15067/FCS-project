@@ -48,10 +48,13 @@ from dashboard.views import (
     accept_decline_transaction_view,
 
     messenger_view,
+    messenge_view,
     create_group_view,
 
     create_post_view,
-    PostCreateView,
+
+    upgrade_view,
+    upgrade_payment_view,
 )
 
 from home.views import (
@@ -86,6 +89,8 @@ urlpatterns = [
 
     url(r'^messenger/create_group/$', create_group_view, name="create_group"),
     url(r'^messenger/$', messenger_view, name="messenger"),
+    url(r'^messenger/(?P<user_1>\w+)/(?P<user_2>\w+)/$', messenge_view, name="my_message"),
+
 
 
     url(r'^wallet/add_money/$', add_money_view, name="add_money"),
@@ -97,7 +102,10 @@ urlpatterns = [
     url(r'^accept_decline_transaction/$', accept_decline_transaction_view, name="accept_decline"),
         
     url(r'^create_post/(?P<u_id>\w+)/$', create_post_view, name="create_post"),
+    url(r'^upgrade/$', upgrade_view, name="upgrade"),
+    url(r'^upgrade/(?P<type>\w+)/$', upgrade_payment_view, name="upgrade"),
     
+        
 
     url(r'^$', home_view, name="home"),
 ]
