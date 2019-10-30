@@ -49,7 +49,7 @@
 
 	- FriendList model (in dashboard app)
 		Attributes :
-		{ user_id, friend_id, status, date_requested, date_confirmed }
+		{ user_1, user_2, status, date_requested, date_confirmed }
 
 	- Transaction model (in dashboard app)
 		Attributes :

@@ -29,7 +29,7 @@ box-shadow: 0px 10px 30px grey !important;
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="/profile/{{ user.id }}"  class="nav-link">Profile</a>
+					<a href="/profile/{{ request.user.id }}"  class="nav-link">Profile</a>
 					
 				</li>
 				<li class="nav-item dropdown">
@@ -61,6 +61,7 @@ box-shadow: 0px 10px 30px grey !important;
 			          <a class="dropdown-item" href="{% url 'add_money' %}">Add Money</a>
 			          <a class="dropdown-item" href="{% url 'transfer_money' %}">Transfer Money</a>
 			          <a class="dropdown-item" href="{% url 'transactions' %}">All Transactions</a>
+			          <a class="dropdown-item" href="{% url 'accept_decline' %}">Transaction Requests</a>
 		      	</li>
 		</ul>
 		<ul class="navbar-nav mr-auto">

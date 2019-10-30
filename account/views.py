@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, LoginForm
 
 from django.contrib.auth.forms import UserCreationForm
+from dashboard.models import Wallet
 
 def registration(request):
 	print("hellow")
@@ -30,10 +31,16 @@ def registration_view(request):
 		print(form)
 		if form.is_valid():
 			form.save()
+			
+			# making wallet model
+
 			email = form.cleaned_data.get('email')
 			raw_password = form.cleaned_data.get('password1')
 			account = authenticate(email=email, password=raw_password)
 			login(request, account)
+
+			w = Wallet(user = request.user, amount = 0)
+			
 			return redirect('dashboard')
 		else:
 			context['registration_form'] = form

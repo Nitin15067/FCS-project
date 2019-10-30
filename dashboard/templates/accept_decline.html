@@ -7,20 +7,19 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">Sender</th>
-      <th scope="col">Reciever</th>
       <th scope="col">Amount</th>
-      <th scope="col">Method</th>
-      <th scope="col">Status</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
   	{% for t in transactions %}
     <tr>
       <td>{{ t.user_1.username }}</td>
-      <td>{{ t.user_2.username }}</td>
       <td>{{ t.amount }}</td>
-      <td>{{ t.payment_method }}</td>
-      <td>{{ t.status }}</td>
+      <td>
+          <a href="/accept_transaction/{{ t.id }}" class="btn btn-outline-success">Accept</a>
+          <a href="/decline_transaction/{{ t.id }}" class="btn btn-outline-danger">Decline</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>

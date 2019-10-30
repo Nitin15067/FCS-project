@@ -43,9 +43,15 @@ from dashboard.views import (
     add_money_view,
     transfer_money_view,
     transactions_view,
+    accept_transaction_view,
+    decline_transaction_view,
+    accept_decline_transaction_view,
 
     messenger_view,
     create_group_view,
+
+    create_post_view,
+    PostCreateView,
 )
 
 from home.views import (
@@ -86,8 +92,12 @@ urlpatterns = [
     url(r'^wallet/transfer_money/$', transfer_money_view, name="transfer_money"),
     url(r'^wallet/transactions/$', transactions_view, name="transactions"),
     url(r'^wallet/$', wallet_view, name="wallet"),
+    url(r'^accept_transaction/(?P<t_id>\w+)/$', accept_transaction_view, name="accept_transaction"),
+    url(r'^decline_transaction/(?P<t_id>\w+)/$', decline_transaction_view, name="decline_transaction"),
+    url(r'^accept_decline_transaction/$', accept_decline_transaction_view, name="accept_decline"),
+        
+    url(r'^create_post/(?P<u_id>\w+)/$', create_post_view, name="create_post"),
     
-
 
     url(r'^$', home_view, name="home"),
 ]

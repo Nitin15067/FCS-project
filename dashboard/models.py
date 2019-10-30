@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import Account
 from django.db.models import Q
+from django.utils import timezone
 
 # Create your models here.
 
@@ -12,42 +13,25 @@ class Friend(models.Model):
 	date_confirmed = models.DateTimeField(verbose_name="date confirmed", null=True)
 	
 
-	# @classmethod
-	# def send_request(cls, user_1, user_2):
+class Wallet(models.Model):
+	user = models.ForeignKey(Account, related_name="user", on_delete=models.CASCADE)
+	balance = models.IntegerField(default = 0)
 
-	# 	friend_request = cls.objects.create(
-	# 		user_1 = user_1,
-	# 		user_2 = user_2,
-	# 		status = False
-	# 	)
-	# 	friend_request.save()
-	# 	args = {
-	# 		'status' : 200
-	# 	}
-	# 	return args
+class Transaction(models.Model):
+	user_1 = models.ForeignKey(Account, related_name="t_user_1", null=True, on_delete=models.CASCADE)
+	user_2 = models.ForeignKey(Account, related_name="t_user_2", null=True, on_delete=models.CASCADE)
+	amount = models.FloatField(default = 0)
+	payment_method = models.TextField(default = 'paytm')
+	status = models.BooleanField(default=False)
+	date_requested = models.DateTimeField(verbose_name="date requested", auto_now_add=True)
+	date_confirmed = models.DateTimeField(verbose_name="date confirmed", null=True)
+	
+class feed(models.Model):
 
+    author = models.ForeignKey(Account, on_delete=models.CASCADE)
+    post_to = models.ForeignKey(Account, on_delete=models.SET_NULL,null=True,related_name="other_users")
+    content = models.TextField(null=False)
+    date_posted = models.DateTimeField(default=timezone.now)
 
-	# @classmethod
-	# def accept_request(cls, current_user, other_user):
-	# 	friend = cls.objects.get(Q(current_user=current_user) & Q(status = False))
-	# 	friend.status = True
-	# 	friend.save()
-
-
-	# @classmethod
-	# def remove_friend(cls, current_user, other_user):
-	# 	friend = cls.objects.get(current_user=current_user)
-	# 	friend.status = True
-	# 	friend.save()
-
-	# @classmethod
-	# def get_friends(cls, current_user):
-	# 	friends = cls.objects.get(Q(user_1 = current_user) & Q(status = True))
-	# 	print("friends are ----------------------")
-	# 	print(friends[0])
-	# 	return friends
-
-	# @classmethod
-	# def get_friend_requests(cls, current_user):
-	# 	friend_requests = cls.objects.get(Q(current_user = current_user) & Q(status = False))
-	# 	return friend_requests
+    def __str__(self):
+        return self.author.first_name
